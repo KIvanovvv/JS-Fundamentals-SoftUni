@@ -1,6 +1,5 @@
 function passwordReset(input) {
   let passString = input.shift();
-  let passStringL = passString.length;
   let pass = passString;
   let index = 0;
 
@@ -9,17 +8,18 @@ function passwordReset(input) {
     let elArr = el.split(" ");
     switch (elArr[0]) {
       case `TakeOdd`:
-        pass = "";
-        for (let i = 0; i < passStringL; i++) {
+        let buff = "";
+        for (let i = 0; i < pass.length; i++) {
           if (i % 2 !== 0) {
-            pass += passString[i];
+            buff += pass[i];
           }
         }
+        pass = buff;
         console.log(pass);
 
         break;
       case "Cut":
-        let index = elArr[1];
+        let index = Number(elArr[1]);
         let length = elArr[2];
         let indexToCut = Number(index) + Number(length);
         let toCut = pass.slice(index, indexToCut);
@@ -29,12 +29,8 @@ function passwordReset(input) {
       case "Substitute":
         let toFind = elArr[1];
         let toReplace = elArr[2];
-        let flag = false;
-        while (pass.includes(toFind)) {
-          pass = pass.replace(toFind, toReplace);
-          flag = true;
-        }
-        if (flag) {
+        if (pass.includes(toFind)) {
+          pass = pass.replace(new RegExp(toFind, `g`), toReplace);
           console.log(pass);
         } else {
           console.log("Nothing to replace!");
@@ -46,8 +42,15 @@ function passwordReset(input) {
   console.log(`Your password is: ${pass}`);
 }
 passwordReset([
-  "up8rgoyg3r1atmlmpiunagt!-irs7!1fgulnnnqy",
-  "Substitute ! ***",
-  "Substitute ? .!.",
+  "Siiceercaroetavm!:?:ahsott.:i:nstupmomceqr",
+
+  "TakeOdd",
+
+  "Cut 15 3",
+
+  "Substitute :: -",
+
+  "Substitute | ^",
+
   "Done",
 ]);
